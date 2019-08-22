@@ -1,0 +1,38 @@
+# Default Cipher
+cipher AES-256-CBC
+setenv FORWARD_COMPATIBLE 1
+client
+server-poll-timeout 4
+nobind
+remote ${OPENVPN_REMOTE} 1194 udp
+remote ${OPENVPN_REMOTE} 443 tcp
+dev tun
+dev-type tun
+ns-cert-type server
+setenv opt tls-version-min 1.0 or-highest
+reneg-sec 604800
+sndbuf 0
+rcvbuf 0
+auth-user-pass /vpn/login.data
+# NOTE: LZO commands are pushed by the Access Server at connect time.
+# NOTE: The below line doesn't disable LZO.
+comp-lzo no
+verb 3
+setenv PUSH_PEER_INFO
+
+<ca>
+${OPENVPN_CA}
+</ca>
+
+<cert>
+${OPENVPN_CERT}
+</cert>
+
+<key>
+${OPENVPN_KEY}
+</key>
+
+key-direction 1
+<tls-auth>
+${OPENVPN_TLSAUTH}
+</tls-auth>
